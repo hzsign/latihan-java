@@ -5,15 +5,12 @@ import com.belajar.postes.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("api/user")
-
 public class UserController {
 
     @Autowired
@@ -24,5 +21,26 @@ public class UserController {
         List<User> users = userService.getAll();
 
         return  new ResponseEntity<>(users, HttpStatus.OK);
+
     }
+
+    @PostMapping
+    public  ResponseEntity<User> createUser(@RequestBody User user){
+        User hasil = userService.create(user);
+
+        return new ResponseEntity<>(hasil, HttpStatus.OK);
+    }
+
+    @PutMapping
+    public ResponseEntity<User> updateUser(@RequestBody User user) {
+        User hasil = userService.update(user);
+
+        return new ResponseEntity<>(hasil, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public void removeUser(@PathVariable("id") Integer id){
+        userService.remove(id);
+    }
+
 }
